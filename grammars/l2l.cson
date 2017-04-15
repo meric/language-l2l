@@ -1,0 +1,226 @@
+name: 'l2l'
+scopeName: 'source.lisp'
+fileTypes: [
+  'lisp'
+  'l2l'
+]
+foldingStartMarker: '\\(\\s*$'
+foldingStopMarker: '^\\s*\\)'
+patterns: [
+  {
+    match: '(@import)\\s+([a-zA-Z0-9_.]+)'
+    captures:
+      1:
+        name: 'support.function.library.lua'
+      2:
+        name: 'entity.name.function.lua'
+  }
+  {
+    match: '(\\b(?i:(fn))\\b)(\\s+)((\\w|\\-|\\!|\\?)*)'
+    captures:
+      2:
+        name: 'storage.type.function-type.lisp'
+      4:
+        name: 'entity.name.function.lisp'
+    name: 'meta.function.lisp'
+  }
+  {
+    match: '(?:^|\\s|\\()(:|&)([a-zA-Z0-9\\#\\.\\-\\_\\+\\=\\>\\<\\/\\!\\?\\*\\[\\]\\{\\}]+)'
+    captures:
+      1:
+        name: 'punctuation.definition.constant.lisp'
+      2:
+        name: 'punctuation.definition.constant.lisp'
+    name: 'meta.definition.lisp'
+  }
+  {
+    match: '(\\*)(\\S*)(\\*)'
+    captures:
+      1:
+        name: 'punctuation.definition.variable.lisp'
+      3:
+        name: 'punctuation.definition.variable.lisp'
+    name: 'variable.other.global.lisp'
+  }
+  {
+    match: '(\\+)(\\S*)(\\+)'
+    captures:
+      1:
+        name: 'punctuation.definition.constant.lisp'
+      3:
+        name: 'punctuation.definition.constant.lisp'
+    name: 'constant.other.global.lisp'
+  }
+  {
+    match: '\\b(?i:let|let\\*|do|if|cond|when|unless)\\b'
+    name: 'keyword.control.lisp'
+  }
+  {
+    match: '\\b(?i:==|<=|>=|<|>|and|or|not)\\b'
+    name: 'keyword.operator.lisp'
+  }
+  {
+    match: '\\b(?i:true|false|nil)\\b'
+    name: 'constant.language.boolean.nil.lisp'
+  }
+  {
+    match: '\\b(?i:cons|car|cdr|lambda|print|set|quote|list|load|loadstring|do|apply|map|reduce|filter)\\b'
+    name: 'support.function.lisp'
+  }
+  {
+    match: '\\b((([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((e|E)(\\+|-)?[0-9]+)?)\\b'
+    name: 'constant.numeric.lisp'
+  }
+  {
+    begin: '"'
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.string.begin.lisp'
+    end: '"'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.string.end.lisp'
+    name: 'string.quoted.double.lisp'
+    patterns: [
+      {
+        match: '\\\\.'
+        name: 'constant.character.escape.lisp'
+      }
+    ]
+  }
+  {
+    captures:
+      1:
+        name: 'keyword.control.lua'
+      2:
+        name: 'entity.name.function.scope.lua'
+      3:
+        name: 'entity.name.function.lua'
+      4:
+        name: 'punctuation.definition.parameters.begin.lua'
+      5:
+        name: 'variable.parameter.function.lua'
+      6:
+        name: 'punctuation.definition.parameters.end.lua'
+    match: '\\b(function)(?:\\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\\w*)\\s*)?(\\()([^)]*)(\\))'
+    name: 'meta.function.lua'
+  }
+  {
+    match: '(?<![\\d.])\\s*0x[a-fA-F\\d]+|\\b\\d+(\\.\\d+)?([eE]-?\\d+)?|\\.\\d+([eE]-?\\d+)?'
+    name: 'constant.numeric.lua'
+  }
+  {
+    begin: '"'
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.string.begin.lua'
+    'end': '"'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.string.end.lua'
+    name: 'string.quoted.double.lua'
+    patterns: [
+      {
+        include: 'punctuation.definition.string.begin.lua'
+      }
+      {
+        include: 'punctuation.definition.string.end.lua'
+      }
+      {
+        include: '#characterEscape'
+      }
+    ]
+  }
+  {
+    begin: '(?<=\\.cdef)\\s*(\\[(=*)\\[)'
+    beginCaptures:
+      0:
+        name: 'string.quoted.other.multiline.lua'
+      '1':
+        name: 'punctuation.definition.string.begin.lua'
+    'contentName': 'meta.embedded.lua'
+    'end': '(\\]\\2\\])'
+    endCaptures:
+      0:
+        name: 'string.quoted.other.multiline.lua'
+      '1':
+        name: 'punctuation.definition.string.end.lua'
+    patterns: [
+      {
+        include: 'source.c'
+      }
+    ]
+  }
+  {
+    begin: '(?<!--)\\[(=*)\\['
+    beginCaptures:
+      0:
+        name: 'punctuation.definition.string.begin.lua'
+    'end': '\\]\\1\\]'
+    endCaptures:
+      0:
+        name: 'punctuation.definition.string.end.lua'
+    name: 'string.quoted.other.multiline.lua'
+  }
+  {
+    begin: '--\\[(=*)\\['
+    captures:
+      0:
+        name: 'punctuation.definition.comment.lua'
+    end: '\\]\\1\\]'
+    name: 'comment.block.lua'
+  }
+  {
+    begin: '(^[ \\t]+)?(?=--(?!\\[(=*)\\[))'
+    beginCaptures:
+      1:
+        name: 'punctuation.whitespace.comment.leading.lua'
+    end: '(?!\\G)'
+    patterns: [
+      {
+        begin: '--'
+        beginCaptures:
+          0:
+            name: 'punctuation.definition.comment.lua'
+        'end': '\\n'
+        name: 'comment.line.double-dash.lua'
+      }
+    ]
+  }
+  {
+    match: '\\b(and|or|not|break|do|else|for|if|elseif|return|then|repeat|while|until|end|function|local|in|goto)\\b'
+    name: 'keyword.control.lua'
+  }
+  {
+    match: '(?<![^.]\\.|:)\\b(false|nil|true|_G|_VERSION|math\\.(pi|huge))\\b|(?<![.])\\.{3}(?!\\.)'
+    name: 'constant.language.lua'
+  }
+  {
+    match: '(?<![^.]\\.|:)\\b(self)\\b'
+    name: 'variable.language.self.lua'
+  }
+  {
+    match: '(?<![.:])\\b(assert|collectgarbage|dofile|error|[gs]etfenv|[gs]etmetatable|i?pairs|load(file|string)?|module|next|x?pcall|print|raw(equal|get|len|set)|require|select|tonumber|tostring|type|unpack|gcinfo|newproxy)\\b'
+    name: 'support.function.library.lua'
+  }
+  {
+    match: '(?<![.:])\\b(coroutine\\.(yield|wrap|create|status|resume|running)|io\\.(input|tmpfile|output|p?open|type|read|close|write|flush|lines|std(in|out|err))|debug\\.([gs]etupvalue|[gs]ethook|[gs]etfenv|[gs]etmetatable|[gs]etuservalue|[gs]etlocal|getregistry|traceback|upvaluejoin|getinfo|upvalueid|debug)|package\\.(seeall|loadlib|searchpath|preload|c?path|loaders|config)|string\\.(find|format|rep|gsub|len|gmatch|dump|match|reverse|byte|char|upper|lower|sub)|table\\.(maxn|sort|pack|remove|unpack|concat|insert|foreachi?|getn)|math\\.(ceil|a?tan|a?cos|a?sin|tanh|cosh|sinh|log10|random(seed)?|max|atan2|ldexp|floor|sqrt|deg|fmod|pow|abs|min|log|frexp|exp|modf|rad)|os\\.(execute|rename|setlocale|getenv|difftime|remove|date|exit|time|clock|tmpname)|jit\\.(status|on|off|flush|attach|arch|version(_num)?|util|opt|os)|bit\\.(rol|rshift|ror|bswap|bx?or|arshift|bnot|tobit|lshift|tohex|band)|ffi\\.(new|cast|(type|size|align|offset)of|istype|fill|cdef|abi|metatype|copy|errno|load|string|gc|C|os|arch))\\b'
+    name: 'support.function.library.lua'
+  }
+  {
+    match: '\\b(([A-Za-z_]\\w*[.])*[A-Za-z_]\\w*)\\b(?=\\s*(?:[({"\']|\\[\\[))'
+    name: 'entity.name.function.lua'
+  }
+  {
+    match: '(?<=[^.]\\.|:)\\b([A-Za-z_]\\w*)'
+    name: 'variable.other.lua'
+  }
+  {
+    match: '\\+|-|%|#|\\*|\\/|\\^|==?|~=|<=?|>=?|(?<!\\.)\\.{2}(?!\\.)'
+    name: 'keyword.operator.lua'
+  }
+  {
+    match: '::[a-zA-Z_]\\w*::'
+    name: 'entity.name.tag.lua'
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "bugs": {
+    "url": "https://github.com/meric/language-l2l/issues"
+  },
+  "dependencies": {},
+  "description": "l2l language support for Atom",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "homepage": "https://github.com/meric/language-l2l",
+  "license": "MIT",
+  "name": "language-l2l",
+  "optionalDependencies": {},
+  "private": true,
+  "readme": "# l2l language support in Atom",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meric/language-l2l.git"
+  },
+  "version": "0.0.1"
+}
